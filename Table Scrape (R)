@@ -1,0 +1,25 @@
+## install the package
+#install.packages("rvest")
+#install.packages("dplyr")
+## load the package
+library(rvest)
+library(dplyr)
+
+#url of website to be scrapped
+url <- "https://nbastatr.com/player/lebron-james"
+
+#read the html content into R and assigns to webpage object
+#to find the right encoding, run “document.inputEncoding” in the console tab.
+webpage <- read_html(url, encoding = "UTF-8")
+webpage
+
+html_nodes(webpage,"table")
+
+html_nodes(webpage,"[class='is-hoverable w-full text-left']")[[2]]
+
+inspections <- html_nodes(webpage,"[class='is-hoverable w-full text-left']")[[2]] %>% html_table()
+
+head(inspections)
+
+#save the table in csv & omit the first column that quantifies the rows
+write.csv(inspections, file = "LB1.csv", row.names =FALSE)
